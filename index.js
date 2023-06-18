@@ -27,24 +27,53 @@ app.use(morgan('dev'))
 app.get('/',(reqeust,response) => {
     response.send('<h1>Request recieved</h1>')
 })
-app.get('/api/blogs', (request, response) => {
+app.get('/api/blogs', (request, response,next) => {
   Blog
     .find({})
     .then(blogs => {
       response.json(blogs)
     })
 })
-
-app.post('/api/blogs', (request, response) => {
-  const blog = new Blog(request.body)
-
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result)
+app.get('/api/blogs/:id', (request, response,next) => {
+  Blog
+    .findById(request.params.id)
+    .then(blogs => {
+      response.json(blogs)
     })
+  .catch(error=>next(error))
 })
 
+
+app.post('/api/blogs', (request, response, next) => {
+  const body = request.body
+  const blog = new Blog(request.body)
+
+  console.log(`Here's the result`,blog)
+  if(blog.title === undefined){
+    response.status(400).json({error : 'empty data'})
+  }
+  else{    
+  blog
+  .save()
+  .then(result => {
+    response.status(201).json(result)
+  })
+  .catch(error=>next(error))
+  }
+})
+
+const errorHandler = (error,request,response,next) => {
+  console.error(error.message)
+  if(error.name === 'CastError'){
+    response.status(400).json({ error : 'malformated id'})
+  }
+  next(error)
+}
+const unknown = (request,response) => {
+  response.status(404).json({ error : `Page not found`})
+}
+app.use(unknown)
+app.use(errorHandler)
 const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
