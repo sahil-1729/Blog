@@ -1,24 +1,16 @@
-require('dotenv').config()
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const Blog = require('./models/blog')
+const config = require('./utils/config')
 const mongoose = require('mongoose')
+const logger = require('./utils/logger')
 var morgan = require('morgan')
 app.use(morgan('dev'))
 
-const blogSchema = new mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
-  likes: Number
-})
-
-const Blog = mongoose.model('Blog', blogSchema)
-
-const mongoUrl = process.env.MONGODB_URI
-mongoose.connect(mongoUrl)
-.then(response=>console.log(`connected`))
-.catch(error=>console.error(error))
+mongoose.connect(config.MONGODB_URI)
+.then(response=>logger.info(`connected hai`))
+.catch(error=>logger.error(error))
 
 app.use(cors())
 app.use(express.json())
@@ -48,7 +40,7 @@ app.post('/api/blogs', (request, response, next) => {
   const body = request.body
   const blog = new Blog(request.body)
 
-  console.log(`Here's the result`,blog)
+  logger.info(`Here's the result`,blog)
   if(blog.title === undefined){
     response.status(400).json({error : 'empty data'})
   }
@@ -62,19 +54,18 @@ app.post('/api/blogs', (request, response, next) => {
   }
 })
 
-const errorHandler = (error,request,response,next) => {
-  console.error(error.message)
-  if(error.name === 'CastError'){
-    response.status(400).json({ error : 'malformated id'})
-  }
-  next(error)
-}
-const unknown = (request,response) => {
-  response.status(404).json({ error : `Page not found`})
-}
+// const errorHandler = (error,request,response,next) => {
+//   logger.error(error.message)
+//   if(error.name === 'CastError'){
+//     response.status(400).json({ error : 'malformated id'})
+//   }
+//   next(error)
+// }
+// const unknown = (request,response) => {
+//   response.status(404).json({ error : `Page not found`})
+// }
 app.use(unknown)
 app.use(errorHandler)
-const PORT = process.env.PORT
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+app.listen(config.PORT, () => {
+  logger.info(`Server running on port ${config.PORT}`)
 })
