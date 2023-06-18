@@ -1,5 +1,5 @@
 //Conatins the errorhandling and unknown endpoints
-const logger = require('./utils/logger')
+const logger = require('./logger')
 
 
 const errorHandler = (error,request,response,next) => {

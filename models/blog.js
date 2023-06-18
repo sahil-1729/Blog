@@ -1,3 +1,4 @@
+//create the schema of the database
 const mongoose = require('mongoose')
 
 const blogSchema = new mongoose.Schema({

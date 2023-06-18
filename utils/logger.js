@@ -1,3 +1,4 @@
+//Handle all the console.log and error parts
 const info = (...params) => {
     console.log(...params)
 }

@@ -1,3 +1,5 @@
+//store the url and ports from the environmental variables
+
 require('dotenv').config()
 
 
