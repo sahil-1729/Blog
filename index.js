@@ -1,24 +1,25 @@
 //Contains only the connection to port part
 const express = require('express')
-const app = express()
-const cors = require('cors')
+// const app = express()
+// const cors = require('cors')
 const config = require('./utils/config')
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 const logger = require('./utils/logger')
-const middleware = require('./utils/middleware')
-const blogRouter = require('./controllers/paths(Blog)')
+const app = require('./app')
+// const middleware = require('./utils/middleware')
+// const blogRouter = require('./controllers/paths(Blog)')
 
-var morgan = require('morgan')
-app.use(morgan('dev'))
-mongoose.set('strictQuery', false)
-mongoose.connect(config.MONGODB_URI)
-.then(response=>logger.info(`connected hai`))
-.catch(error=>logger.error(error))
+// var morgan = require('morgan')
+// app.use(morgan('dev'))
+// mongoose.set('strictQuery', false)
+// mongoose.connect(config.MONGODB_URI)
+// .then(response=>logger.info(`connected hai`))
+// .catch(error=>logger.error(error))
 
-app.use(cors())
-app.use(express.json())
-app.use(morgan('dev'))
-app.use('/api/blogs',blogRouter)
+// app.use(cors())
+// app.use(express.json())
+// app.use(morgan('dev'))
+// app.use('/api/blogs',blogRouter)
 
 // app.get('/api/blogs', (request, response,next) => {
 //   Blog
@@ -65,8 +66,8 @@ app.use('/api/blogs',blogRouter)
 // const unknown = (request,response) => {
 //   response.status(404).json({ error : `Page not found`})
 // }
-app.use(middleware.unknown)
-app.use(middleware.errorHandler)
+// app.use(middleware.unknown)
+// app.use(middleware.errorHandler)
 app.listen(config.PORT, () => {
   logger.info(`Server running on port ${config.PORT}`)
 })
