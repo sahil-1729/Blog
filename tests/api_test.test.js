@@ -72,7 +72,6 @@ test('unique id', async () => {
 //       .expect('Content-Type', /application\/json/)
 //   }, 100000)
 test('post blog with valid content', async () => {
-    info`test run starts`
     const nBlog = {
             "title": "dsfgsag",
             "author": "Ryan gosling",
@@ -107,6 +106,28 @@ test('check if default like of blog is zero', async () => {
     const blogwith0like = response.find(val => val.author === "ndf dj")
     info(blogwith0like)
     expect(blogwith0like.likes).toBeDefined()
+})
+test('check the status code is 400 if title of blog missing', async () => {
+    info(`test run starts`)
+    const nBlog = {
+        "author": "Ryan gosling",
+        "url": "www.google.com",
+        "likes": 32,
+}
+    await api.post('/api/blogs').send(nBlog).expect(400).expect('Content-Type',/application\/json/)
+})
+test('show page not found for invalid url', async () => {
+    await api.get('/api/blog').expect(400).expect('Content-Type',/application\/json/)
+})
+test('deletion', async () => {
+    const listBlogsPrev = await helper.blogsInDB()
+    await api.delete(`/api/blogs/${listBlogsPrev[0].id}`).expect(204)
+    const listBlogsNow = await helper.blogsInDB()
+    expect(listBlogsNow).toHaveLength(listBlogsPrev.length - 1)
+    info(listBlogsNow.length)
+    const listBlogTitle = listBlogsNow.map(val => val.title)
+    info(listBlogTitle)
+    expect(listBlogTitle).not.toContain("Heroes of Nothing")
 })
 afterAll(async () => {
     await mongoose.connection.close()

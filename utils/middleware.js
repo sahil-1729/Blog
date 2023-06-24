@@ -10,7 +10,7 @@ const errorHandler = (error,request,response,next) => {
       next(error)
     }
     const unknown = (request,response) => {
-      response.status(404).json({ error : `Page not found`})
+      response.status(400).json({ error : `Page not found`})
     }
 
 module.exports = {
