@@ -13,8 +13,11 @@ var morgan = require('morgan')
 app.use(morgan('dev'))
 mongoose.set('strictQuery', false)
 mongoose.connect(MONGODB_URI)
-.then(response=>logger.info(`connected hai`))
-.catch(error=>logger.error(error))
+.then(response=>{
+    logger.info(`connected hai`)
+    logger.info(MONGODB_URI)
+})
+    .catch(error=>logger.error(error))
 
 app.use(cors())
 app.use(express.json())
