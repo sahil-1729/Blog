@@ -129,6 +129,19 @@ test('deletion', async () => {
     info(listBlogTitle)
     expect(listBlogTitle).not.toContain("Heroes of Nothing")
 })
+test('check if updation of likes work', async () => {
+    const List = await helper.blogsInDB()
+    const toBeUpdated = {
+        "title": "Heroes of Nothing",
+    "author": "Rick Riordan",
+    "url": "www.percyJackson.com",
+    "likes": 125
+}
+    const updated = await api.put(`/api/blogs/${List[0].id}`).send(toBeUpdated).expect(200).expect('Content-Type',/application\/json/)
+    info(updated.body)
+    const updatedObject = updated.body
+    expect(updatedObject.likes).toBe(toBeUpdated.likes)
+})
 afterAll(async () => {
     await mongoose.connection.close()
 })

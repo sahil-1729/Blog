@@ -1,4 +1,5 @@
 const blogRouter = require('express').Router()
+const blog = require('../models/blog')
 const Blog = require('../models/blog')
 const logger = require('../utils/logger')
 
@@ -39,6 +40,22 @@ blogRouter.delete('/:id', async (request, response,next) => {
     }else{
       response.status(400).json({error : "The blog does not exist"})
     }
+})
+
+blogRouter.put('/:id',async (request,response,next) => {
+  const body = request.body
+  logger.info(body)
+  const decoy = {
+      title : body.title,
+      author: body.author,
+      url: body.url,
+      likes: body.likes,
+      id: body.id
+  }
+  
+  const result = await Blog.findByIdAndUpdate(request.params.id,decoy,{ new : true })
+  response.status(200).json(result)
+
 })
 
 blogRouter.post('/', async (request, response, next) => {
