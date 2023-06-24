@@ -3,7 +3,7 @@ const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
 const helper = require('./helper')
-const blog = require('../models/blog')
+const Blog = require('../models/blog')
 const {info} = require('../utils/logger')
 
 const examples = [
@@ -22,7 +22,7 @@ const examples = [
 ]
 
 beforeEach(async () => {
-    await blog.deleteMany({})
+    await Blog.deleteMany({})
     info(`deleted`)
     // examples.forEach(async (val) => {
     //     let tobeSaved = new blog(val)
@@ -30,7 +30,7 @@ beforeEach(async () => {
     //     info(`saved`)
     // })
 
-    const createdBlogs = examples.map(val => new blog(val))
+    const createdBlogs = examples.map(val => new Blog(val))
     const promiseArr = createdBlogs.map(val => val.save())
     await Promise.all(promiseArr) 
 
@@ -91,6 +91,22 @@ test('post blog with valid content', async () => {
     const title = arr.map(val => val.title)
     // info(title)
     expect(title).toContain('dsfgsag')
+})
+test('check if default like of blog is zero', async () => {
+    const dummy = {
+        "title": "dagg jd tre",
+    "author": "ndf dj",
+    "url": "www.perfjkyJackson.com"
+}
+    // const blogWithoutLikeInput = new Blog(dummy)
+    // info(`the object `,dummy)
+    await api.post('/api/blogs').send(dummy).expect(201)
+    .expect('Content-Type',/application\/json/)
+    const response = await helper.blogsInDB()
+    // info(response)
+    const blogwith0like = response.find(val => val.author === "ndf dj")
+    info(blogwith0like)
+    expect(blogwith0like.likes).toBeDefined()
 })
 afterAll(async () => {
     await mongoose.connection.close()

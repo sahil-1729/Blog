@@ -13,8 +13,13 @@ const blogSchema = new mongoose.Schema({
     // virtuals : true,
     transform: (document,returnedObj) => {
     returnedObj._id = returnedObj._id.toString()
-    //create a new peroperty and assign the id to it
+    //create a new property and assign the id to it
+    
+    if(!returnedObj.likes){
+      returnedObj.likes = 0;
+    }
     returnedObj.id = returnedObj._id
+    
     delete returnedObj._id
     delete returnedObj.__v
     return returnedObj
