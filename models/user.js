@@ -5,14 +5,14 @@ const mongoose = require('mongoose')
 const userSchema = new mongoose.Schema({
     username: String,
     name: String,
-    passwordHash: String,
+    password: String,
     blogs : [{
         type : mongoose.Schema.Types.ObjectId,
         ref : 'Blog'   
     }]
   })
 
-  blogSchema.set('toJSON',{
+  userSchema.set('toJSON',{
     // virtuals : true,
     transform: (document,returnedObj) => {
     returnedObj._id = returnedObj._id.toString()
