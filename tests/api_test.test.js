@@ -4,6 +4,8 @@ const app = require('../app')
 const api = supertest(app)
 const helper = require('./helper')
 const Blog = require('../models/blog')
+const bcrypt = require('bcrypt')
+const User = require('../models/user')
 const {info} = require('../utils/logger')
 
 const examples = [
@@ -141,6 +143,20 @@ test('check if updation of likes work', async () => {
     info(updated.body)
     const updatedObject = updated.body
     expect(updatedObject.likes).toBe(toBeUpdated.likes)
+})
+describe('If there exist one user in db', () => {
+    BeforEach(async () => {
+        await User.deleteMany({})
+        const hash = bcrypt.hash('secret',10)
+        const obj = {
+            username : "coolnaam",
+            name : "naam",
+            password : hash
+        }
+        const result = new User(obj)
+        await result.save()
+    })
+
 })
 afterAll(async () => {
     await mongoose.connection.close()

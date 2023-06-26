@@ -1,9 +1,15 @@
 //create the schema of the database
 const { transform } = require('lodash')
-const mongoose = require('mongoose')
+const mongoose = require('mongoose' )
+const uniqueValidator = require('mongoose-unique-validator')
 
 const userSchema = new mongoose.Schema({
-    username: String,
+    username: {
+        type : String,
+        required : true,
+        minlength : [3,'Username must be atleast 3 characters long, got {VALUE}' ],
+        unique : true
+    },
     name: String,
     password: String,
     blogs : [{
@@ -11,6 +17,8 @@ const userSchema = new mongoose.Schema({
         ref : 'Blog'   
     }]
   })
+
+  userSchema.plugin(uniqueValidator)
 
   userSchema.set('toJSON',{
     // virtuals : true,
