@@ -1,10 +1,11 @@
 const blogRouter = require('express').Router()
 const blog = require('../models/blog')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const logger = require('../utils/logger')
 
 blogRouter.get('/', async (request, response,next) => {
-  const blog = await Blog.find({})  
+  const blog = await Blog.find({}).populate('user')  
   response.json(blog)
   // Blog
   //     .find({})
@@ -59,8 +60,17 @@ blogRouter.put('/:id',async (request,response,next) => {
 })
 
 blogRouter.post('/', async (request, response, next) => {
-    const body = request.body
-    const blog = new Blog(body)
+    const {title,author,url,likes,userId} = request.body
+    const uID = userId
+    const userObj = await User.findById(uID)
+    const blog = new Blog({
+      title,
+      author,
+      url,
+      likes,
+      user : uID
+    })
+    
     logger.info(`Here's the result`,blog, typeof blog)
     if(blog.title === undefined){
       response.status(400).json({error : 'empty data'})
@@ -70,8 +80,14 @@ blogRouter.post('/', async (request, response, next) => {
         // if(!blog.likes){
         //   blog.likes = 0
         // }
-        const result = await blog.save()
-        response.status(201).json(result)
+        const savedBlog = await blog.save()
+        logger.info(savedBlog.id)
+        //modified the properties of model
+        userObj.blogs = userObj.blogs.concat(savedBlog.id)
+        //since modified, it has to be saved
+        await userObj.save()
+        // const result = await blog.save()
+        response.status(201).json(savedBlog)
       }catch(exception){
         next(exception)
       }

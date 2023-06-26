@@ -7,7 +7,9 @@ const blogSchema = new mongoose.Schema({
     author: String,
     url: String,
     likes: Number,
-    user : {
+    user : 
+    // String
+    {
       type : mongoose.Schema.Types.ObjectId,
       ref : 'User'
     }
@@ -26,7 +28,7 @@ const blogSchema = new mongoose.Schema({
     
     delete returnedObj._id
     delete returnedObj.__v
-    return returnedObj
+    // return returnedObj
     }
   })
   module.exports = mongoose.model('Blog',blogSchema)
