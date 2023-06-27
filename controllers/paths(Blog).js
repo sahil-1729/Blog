@@ -7,7 +7,7 @@ const logger = require('../utils/logger')
 
 blogRouter.get('/', async (request, response,next) => {
   const blog = await Blog.find({}).populate('user')  
-  response.json(blog)
+  response.status(200).json(blog)
   // Blog
   //     .find({})
   //     .then(blogs => {
@@ -60,21 +60,21 @@ blogRouter.put('/:id',async (request,response,next) => {
 
 })
 
-const getToken = (request) => {
-  let authorization = request.get('authorization')
-  if(authorization && authorization.startsWith('Bearer ')){
-    authorization = authorization.replace('Bearer ','')
-    return authorization
-  }
-  return null 
-}
+// const getToken = (request) => {
+//   let authorization = request.get('authorization')
+//   if(authorization && authorization.startsWith('Bearer ')){
+//     authorization = authorization.replace('Bearer ','')
+//     return authorization
+//   }
+//   return null 
+// }
 
 blogRouter.post('/', async (request, response, next) => {
 
     const {title,author,url,likes,userId} = request.body
     // const uID = userId
 
-    const decodedToken = jwt.verify(getToken(request),process.env.SECRET)
+    const decodedToken = jwt.verify(request.token,process.env.SECRET)
     if(!decodedToken){
       response.status(401).json({error : "invalid token"})
     }

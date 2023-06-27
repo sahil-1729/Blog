@@ -17,7 +17,9 @@ loginRouter.post('/', async (request,response,next) => {
         username : obj.username,
         id : obj._id
     }
-    const token = jsonwebtoken.sign(tokenObj,process.env.SECRET,{expiresIn:60*60})
+    const token = jsonwebtoken.sign(tokenObj,process.env.SECRET
+        // ,{expiresIn:60*60}
+        )
     response.status(200).json({ token,username : tokenObj.username,id : tokenObj.id })
 })
 module.exports = loginRouter

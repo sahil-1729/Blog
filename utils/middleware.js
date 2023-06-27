@@ -1,6 +1,17 @@
 //Conatins the errorhandling and unknown endpoints
 const logger = require('./logger')
 
+const getToken = (request,response,next) => {
+  let authorization = request.get('authorization')
+  if(authorization && authorization.startsWith('Bearer ')){
+    authorization = authorization.replace('Bearer ','')
+    request.token =  authorization
+    // logger.info(request.token)
+  }else{
+  request.token = null
+  }
+  next('route')
+}
 
 const errorHandler = (error,request,response,next) => {
       logger.error(error.message)
@@ -21,5 +32,6 @@ const errorHandler = (error,request,response,next) => {
 
 module.exports = {
     errorHandler,
-    unknown
+    unknown,
+    getToken
 }
