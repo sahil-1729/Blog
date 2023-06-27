@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 require('express-async-errors')
 const logger = require('./utils/logger')
 const {errorHandler,unknown} = require('./utils/middleware')
+const loginRouter = require('./controllers/login')
 const userRouter = require('./controllers/paths(User)')
 const blogRouter = require('./controllers/paths(Blog)')
 
@@ -25,7 +26,7 @@ app.use(express.json())
 app.use(morgan('dev'))
 app.use('/api/users',userRouter)
 app.use('/api/blogs',blogRouter)
-
+app.use('/api/login',loginRouter)
 app.use(unknown)
 app.use(errorHandler)
 
