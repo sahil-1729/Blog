@@ -1,6 +1,6 @@
 //Conatins the errorhandling and unknown endpoints
 const logger = require('./logger')
-
+const jwt = require('jsonwebtoken')
 const getToken = (request,response,next) => {
   let authorization = request.get('authorization')
   if(authorization && authorization.startsWith('Bearer ')){
@@ -13,6 +13,14 @@ const getToken = (request,response,next) => {
   next('route')
 }
 
+const userExtract = (request,response,next) => {
+  const decodedToken = jwt.verify(request.token,process.env.SECRET)
+  if(!decodedToken){
+    response.status(401).json({error : "invalid token"})
+  }
+  request.user = decodedToken
+  next()
+}
 const errorHandler = (error,request,response,next) => {
       logger.error(error.message)
       if(error.name === 'CastError'){
@@ -33,5 +41,6 @@ const errorHandler = (error,request,response,next) => {
 module.exports = {
     errorHandler,
     unknown,
-    getToken
+    getToken,
+    userExtract
 }

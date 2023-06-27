@@ -4,6 +4,7 @@ const blog = require('../models/blog')
 const Blog = require('../models/blog')
 const User = require('../models/user')
 const logger = require('../utils/logger')
+const { userExtract } = require('../utils/middleware')
 
 blogRouter.get('/', async (request, response,next) => {
   const blog = await Blog.find({}).populate('user')  
@@ -33,17 +34,18 @@ blogRouter.get('/:id', async (request, response,next) => {
   //   .catch(error=>next(error))
   })
   
-blogRouter.delete('/:id', async (request, response,next) => {
+blogRouter.delete('/:id', userExtract ,async (request, response,next) => {
   
-  const decodedToken = jwt.verify(request.token,process.env.SECRET)
-  if(!decodedToken){
-    response.status(401).json({error : "invalid token"})
-  }
+  // const decodedToken = jwt.verify(request.token,process.env.SECRET)
+  // if(!decodedToken){
+  //   response.status(401).json({error : "invalid token"})
+  // }
+
   const blogObj = await Blog.findById(request.params.id)
-  logger.info(`obj from token `,decodedToken,` obj from blog`,blogObj)
+  logger.info(`obj from token `,request.user,` obj from blog`,blogObj)
   const useridFromBlogObj = blogObj.user.toString()
-  console.log('decoded token id', decodedToken.id)
-  if(decodedToken.id !== useridFromBlogObj){
+  console.log('decoded token id', request.user.id)
+  if(request.user.id !== useridFromBlogObj){
     response.status(401).json({error : "invalid user"})
   }
   // response.status(200).json({oops : "work in progress"})
@@ -72,18 +74,19 @@ blogRouter.put('/:id',async (request,response,next) => {
 
 })
 
-blogRouter.post('/', async (request, response, next) => {
+blogRouter.post('/', userExtract,async (request, response, next) => {
 
     const {title,author,url,likes,userId} = request.body
     // const uID = userId
 
-    const decodedToken = jwt.verify(request.token,process.env.SECRET)
-    if(!decodedToken){
-      response.status(401).json({error : "invalid token"})
-    }
+    // const decodedToken = jwt.verify(request.token,process.env.SECRET)
+    // if(!decodedToken){
+    //   response.status(401).json({error : "invalid token"})
+    // }
+
     //it contains the object having id and username, which are specified in login.js
-    logger.info(`Decoded Token `,decodedToken)
-    const userObj = await User.findById(decodedToken.id)
+    logger.info(`Decoded Token `,request.user)
+    const userObj = await User.findById(request.user.id)
     // info(`The object ${userObj}`)
     const blog = new Blog({
       title,
