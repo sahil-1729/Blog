@@ -32,6 +32,9 @@ const errorHandler = (error,request,response,next) => {
       else if(error.name === 'JsonWebTokenError'){
         response.status(401).json({error : error.message})
       }
+      else if(error.name === 'TokenExpiredError'){
+        response.status(500).json({error : error.message})
+      }
       next(error)
     }
     const unknown = (request,response) => {
