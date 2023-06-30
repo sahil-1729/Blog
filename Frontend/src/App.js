@@ -25,7 +25,8 @@ const App = () => {
     const savedObj = JSON.parse(savedLogin)
     setUser(savedObj)
     blogService.setToken(savedObj.token)
-    }},[])
+    info(`Token saved`)
+  }},[])
   const change = (val,type) => {
     
     if(type === 1){
@@ -49,6 +50,13 @@ const App = () => {
       window.localStorage.setItem('savedUser',JSON.stringify(user))
       setUsername('')
       setPassword('')
+      const savedLogin = window.localStorage.getItem('savedUser')
+      if(savedLogin){
+      const savedObj = JSON.parse(savedLogin)
+      setUser(savedObj)
+      blogService.setToken(savedObj.token)
+      info(`Token saved`)
+      }
     }catch(exception){
       setMessage('Invalid username or password')
       setTimeout(() => {
