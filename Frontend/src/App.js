@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -118,6 +118,7 @@ const App = () => {
   // <input type="submit" value="Submit"/> 
   // </form> 
   // )
+    const refff = useRef()
 
   return (
     <div>
@@ -128,7 +129,7 @@ const App = () => {
   {/* {info(`The username is `,username)} */}
   {/* {info(`The password is `,password)} */}
   {user === null ? form() : <div>
-    <Toggle>
+    <Toggle buttonLabel1='cancel' buttonLabel2='create new blog'>
       <SaveBlogForm addBlog={addBlog} />
     </Toggle>
     <h1>Blogs</h1>
@@ -136,8 +137,7 @@ const App = () => {
     {user.username} just logged in <br/>
     <button onClick={logout}>logout</button>
     </h2>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+      {blogs.map(blog => <Blog key={blog.id} blog={blog} />
       )}
     </div>}
   {/* {info(`The user is `,user)} */}
