@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -118,7 +118,20 @@ const App = () => {
   // <input type="submit" value="Submit"/> 
   // </form> 
   // )
-    const refff = useRef()
+
+  const addLike = async(event,b_id,blog) => {
+    event.preventDefault()
+    const {title,author,url} = blog
+    const modifiedObj = {
+      title,
+      author,
+      url,
+      likes : blog.likes + 1
+    }
+    await blogService.put(b_id,modifiedObj)
+    const result = await blogService.getAll()
+    setBlogs(result)
+  }
 
   return (
     <div>
@@ -137,7 +150,8 @@ const App = () => {
     {user.username} just logged in <br/>
     <button onClick={logout}>logout</button>
     </h2>
-      {blogs.map(blog => <Blog key={blog.id} blog={blog} />
+      {info(blogs.sort((a,b) => a.likes - b.likes))}
+      {blogs.map(blog => <Blog key={blog.id} blog_id={blog.id} addLike={addLike} blog={blog} />
       )}
     </div>}
   {/* {info(`The user is `,user)} */}
