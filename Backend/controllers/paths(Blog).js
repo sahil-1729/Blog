@@ -47,15 +47,16 @@ blogRouter.delete('/:id', userExtract ,async (request, response,next) => {
   console.log('decoded token id', request.user.id)
   if(request.user.id !== useridFromBlogObj){
     response.status(401).json({error : "invalid user"})
-  }
+  }else{
   // response.status(200).json({oops : "work in progress"})
-    const result = await Blog.findByIdAndDelete(request.params.id)
-    if(result){
-      logger.info(`delete success`, result)
-      response.status(204).end()
-    }else{
-      response.status(400).json({error : "The blog does not exist"})
-    }
+  const result = await Blog.findByIdAndDelete(request.params.id)
+  if(result){
+    // logger.info(`delete success`, result)
+    response.status(204).end()
+  }else{
+    response.status(400).json({error : "The blog does not exist"})
+  }
+  }
 })
 
 blogRouter.put('/:id',async (request,response,next) => {

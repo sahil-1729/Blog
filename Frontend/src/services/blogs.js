@@ -9,6 +9,24 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
+const removeBlog = async (id) => {
+  
+  try{
+  const config = {
+    headers : { Authorization : token }
+  }
+  const response = await axios.delete(`${baseUrl}/${id}`,config)
+  return response
+  }catch(error){
+    console.log(`Error `,error.response.data)
+    const message = error.response.data
+    if(message.error === "jwt expired"){
+      console.log(`worked`)
+      window.localStorage.clear()
+      window.location.reload()
+    }
+  }
+}
 const put = async(id,modifiedObj) => {
   const response = await axios.put(`${baseUrl}/${id}`,modifiedObj)
   return response.data
@@ -34,4 +52,4 @@ const create = async (toBeSaved) => {
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, setToken, create, put }
+export default { getAll, setToken, create, put, removeBlog }

@@ -119,6 +119,10 @@ const App = () => {
   // </form> 
   // )
 
+  const update = async() => {
+    const result = await blogService.getAll()
+    setBlogs(result)
+  }
   const addLike = async(event,b_id,blog) => {
     event.preventDefault()
     const {title,author,url} = blog
@@ -128,9 +132,29 @@ const App = () => {
       url,
       likes : blog.likes + 1
     }
+    // await blogService.put(b_id,modifiedObj)
+    // const result = await blogService.getAll()
+    // setBlogs(result)
     await blogService.put(b_id,modifiedObj)
-    const result = await blogService.getAll()
-    setBlogs(result)
+    await update()
+  }
+
+  const deleteBlog = async (event,b_id,blog) => {
+    try {
+      const result = window.confirm(`Do you really want to delete ${blog.title}`)
+      if(result){
+      event.preventDefault()
+      await blogService.removeBlog(b_id,blog)
+      await update()
+      }
+    } catch (error) {
+      info(`The error`,error)
+      setMessage(error)
+      setTimeout(() => {
+        setMessage(null)
+      },5000)
+    }
+    
   }
 
   return (
@@ -151,7 +175,7 @@ const App = () => {
     <button onClick={logout}>logout</button>
     </h2>
       {info(blogs.sort((a,b) => a.likes - b.likes))}
-      {blogs.map(blog => <Blog key={blog.id} blog_id={blog.id} addLike={addLike} blog={blog} />
+      {blogs.map(blog => <Blog key={blog.id} blog_id={blog.id} addLike={addLike} deleteBlog={deleteBlog} blog={blog} />
       )}
     </div>}
   {/* {info(`The user is `,user)} */}
