@@ -7,10 +7,22 @@ const Blog = ({blog,blog_id,addLike,deleteBlog}) => {
 
   return (
   <div className="blog">
-    {blog.title} <br/> 
+    <div >
+    {blog.title}   
+    </div>
     {/* {console.log(blog_id)} */}
     <Toggle buttonLabel1='hide' buttonLabel2='view' refs={refff} > 
-    {blog.url} <br/> {blog.likes} <button onClick={(event) => addLike(event,blog_id,blog)} >Like</button> <br/> {blog.author} <br/> <button onClick={(event) => deleteBlog(event,blog_id,blog)} >delete</button>
+    <div className="url" >
+    {blog.url} 
+    </div>
+    <div className="like" >
+    {blog.likes} 
+    </div>
+    <button onClick={(event) => addLike(event,blog_id,blog)} >Like</button>
+    <div className="author" >
+    {blog.author}   
+    </div>
+    <button onClick={(event) => deleteBlog(event,blog_id,blog)} >delete</button>
     </Toggle>
   </div>  
 )}
