@@ -30,6 +30,10 @@ app.use(getToken)
 // app.use('/api/blogs',userExtract,blogRouter)
 app.use('/api/blogs',blogRouter)
 app.use('/api/login',loginRouter)
+if(process.env.NODE_ENV === 'test'){
+    const testing = require('./controllers/testing')
+    app.use('/api/testing',testing)
+}
 app.use(unknown)
 app.use(errorHandler)
 

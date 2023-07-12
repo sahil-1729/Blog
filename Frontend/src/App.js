@@ -99,9 +99,9 @@ const App = () => {
     <form onSubmit={result}>
     <h1>Login</h1>
   <label >Username</label> <br/>
-  <input type="text" value={username} name="Enter_your_username" onChange={({target}) => change(target.value,1)} /> <br/>
+  <input className='username' type="text" value={username} name="Enter_your_username" onChange={({target}) => change(target.value,1)} /> <br/>
   <label >Password</label> <br/>
-  <input type="password" value={password} name="Enter_your_password" onChange={({target}) => change(target.value,2)} /> <br/>
+  <input className='password' type="password" value={password} name="Enter_your_password" onChange={({target}) => change(target.value,2)} /> <br/>
   <input type="submit" value="Submit"/>
   </form> 
   )
