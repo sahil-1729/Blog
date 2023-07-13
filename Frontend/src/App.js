@@ -102,7 +102,7 @@ const App = () => {
   <input className='username' type="text" value={username} name="Enter_your_username" onChange={({target}) => change(target.value,1)} /> <br/>
   <label >Password</label> <br/>
   <input className='password' type="password" value={password} name="Enter_your_password" onChange={({target}) => change(target.value,2)} /> <br/>
-  <input type="submit" value="Submit"/>
+  <input className='sub' type="submit" value="Submit"/>
   </form> 
   )
 
