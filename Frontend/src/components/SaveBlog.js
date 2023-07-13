@@ -19,12 +19,12 @@ const SaveBlogForm = ({addBlog}) => {
     <form onSubmit={(event) => addBlog(event,newBlog)}>
     <h2>Create a Blog</h2>
     <label >Title</label> <br/>
-    <input type="text" name='title' value={newBlog.title} onChange={({target}) => createBlog(target)} /> <br/>
+    <input className="title" type="text" name='title' value={newBlog.title} onChange={({target}) => createBlog(target)} /> <br/>
     <label >Author</label> <br/>
-    <input type="text" name='author' value={newBlog.author} onChange={({target}) => createBlog(target)} /> <br/>
+    <input className="author" type="text" name='author' value={newBlog.author} onChange={({target}) => createBlog(target)} /> <br/>
     <label >Url</label> <br/>
-    <input type="text" name='url' value={newBlog.url} onChange={({target}) => createBlog(target)} /> <br/>
-    <input type="submit" value="Submit"/> 
+    <input className="url" type="text" name='url' value={newBlog.url} onChange={({target}) => createBlog(target)} /> <br/>
+    <input className="blogSubmit" type="submit" value="Submit"/> 
     </form> 
   )
 }

@@ -49,6 +49,13 @@ describe('Blog tests', () => {
       cy.contains('Healthy')
 
     })
-  
+    it('save a blog',function(){
+      cy.contains('create new blog').click()
+      cy.get('.title').type('Top 5 Hiking Trails in the Grand Canyon')
+      cy.get('.author').type('Jason Turner')
+      cy.get('.url').type('www.exampleblog.com/top-hiking-trails-grand-canyon')
+      cy.get('.blogSubmit').click()
+    })
+
   })
 })
