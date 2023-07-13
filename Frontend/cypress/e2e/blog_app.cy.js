@@ -2,8 +2,8 @@ describe('Blog tests', () => {
   beforeEach(function (){
     cy.request('POST',`${Cypress.env('BACKEND')}/testing/reset`)
     const user = {
-      username : 'username',
-      password : 'password'
+      username : 'testing',
+      password : 'testing'
     }
     cy.request('POST',`${Cypress.env('BACKEND')}/users`,user)
     cy.visit('')
@@ -22,10 +22,33 @@ describe('Blog tests', () => {
       cy.contains('Invalid username or password')
     })
     it('for successful attempt',function(){
-      cy.get('.username').type('username')
-      cy.get('.password').type('password')
+      cy.get('.username').type('testing')
+      cy.get('.password').type('testing')
       cy.get('.sub').click()
-      cy.contains('username just logged in')
+      cy.contains('testing just logged in')
     })
+  })
+  describe('When user logs in',function(){
+    beforeEach(function(){
+      cy.login( {
+        username : 'testing',
+        password : 'testing'
+      })
+      cy.get('.username').type('testing')
+      cy.get('.password').type('testing')
+      cy.get('.sub').click()
+    }) 
+    it('blog already exists',function(){
+      // cy.contains('logged')
+      cy.create({
+        title: "Healthy Breakfast Ideas to Start Your Day Right",
+        author: "Olivia Collins",
+        url: "www.exampleblog.com/healthy-breakfast-ideas",
+        likes: 183
+      })
+      cy.contains('Healthy')
+
+    })
+  
   })
 })
