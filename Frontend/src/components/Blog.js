@@ -1,12 +1,16 @@
 import "../index.css"
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import Toggle from "./Toggle"
 
 const Blog = ({blog,blog_id,addLike,deleteBlog}) => {
   const refff = useRef()
-
+  const savedLogin = window.localStorage.getItem('savedUser')
+  const savedUserObj = JSON.parse(savedLogin)
+  const hide = blog.user.id === savedUserObj.id
+  const hideCss = {display : hide ? '' : 'none'}
   return (
   <div className="blog">
+        {console.log(`The blog user's id `,blog.user.id,`Also the saved user is ${savedUserObj.id}`)}
     <div >
     {blog.title}   
     </div>
@@ -22,7 +26,7 @@ const Blog = ({blog,blog_id,addLike,deleteBlog}) => {
     <div className="author" >
     {blog.author}   
     </div>
-    <button className="deleteButton" onClick={(event) => deleteBlog(event,blog_id,blog)} >delete</button>
+    <button style={hideCss} className="deleteButton" onClick={(event) => deleteBlog(event,blog_id,blog)} >delete</button>
     </Toggle>
   </div>  
 )}

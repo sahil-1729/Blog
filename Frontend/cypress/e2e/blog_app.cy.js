@@ -6,6 +6,10 @@ describe('Blog tests', () => {
       password : 'testing'
     }
     cy.request('POST',`${Cypress.env('BACKEND')}/users`,user)
+    cy.request('POST',`${Cypress.env('BACKEND')}/users`,{
+      username : '12345',
+      password : '12345'
+    })
     cy.visit('')
 
   })
@@ -38,7 +42,16 @@ describe('Blog tests', () => {
       cy.get('.password').type('testing')
       cy.get('.sub').click()
     }) 
-    it('blog already exists',function(){
+   
+    it('save a blog',function(){
+      cy.contains('create new blog').click()
+      cy.get('.title').type('Top 5 Hiking Trails in the Grand Canyon')
+      cy.get('.author').type('Jason Turner')
+      cy.get('.url').type('www.exampleblog.com/top-hiking-trails-grand-canyon')
+      cy.get('.blogSubmit').click()
+    })
+
+     it('blog already exists',function(){
       // cy.contains('logged')
       cy.create({
         title: "Healthy Breakfast Ideas to Start Your Day Right",
@@ -47,15 +60,8 @@ describe('Blog tests', () => {
         likes: 183
       })
       cy.contains('Healthy')
+    })
 
-    })
-    it('save a blog',function(){
-      cy.contains('create new blog').click()
-      cy.get('.title').type('Top 5 Hiking Trails in the Grand Canyon')
-      cy.get('.author').type('Jason Turner')
-      cy.get('.url').type('www.exampleblog.com/top-hiking-trails-grand-canyon')
-      cy.get('.blogSubmit').click()
-    })
     it('like a blog',function(){
       cy.create({
         "title": "A Beginner's Guide to Meditation",
@@ -89,5 +95,41 @@ describe('Blog tests', () => {
       cy.contains('The Benefits of Yoga for Mind and Body').parent().find('.deleteButton').click()
       cy.contains('The Benefits of Yoga for Mind and Body').should('not.exist')      
     })
+
+  })
+  it('only creator can see the blog not anyone else',function(){
+    cy.login( {
+      username : 'testing',
+      password : 'testing'
+    })
+    cy.get('.username').type('testing')
+    cy.get('.password').type('testing')
+    cy.get('.sub').click()
+    cy.create({
+      "title": "A Beginner's Guide to Meditation",
+      "author": "Emma Wilson",
+      "url": "www.exampleblog.com/beginners-guide-meditation",
+      "likes": 76
+    })
+    cy.create( {
+      "title": "The Benefits of Yoga for Mind and Body",
+      "author": "Natalie Bennett",
+      "url": "www.exampleblog.com/benefits-of-yoga",
+      "likes": 124
+    })
+    cy.contains('logout').click()
+
+    cy.login( {
+      username : '12345',
+      password : '12345'
+    })
+    cy.get('.username').type('12345')
+    cy.get('.password').type('12345')
+    cy.get('.sub').click()
+
+    cy.contains('The Benefits of Yoga for Mind and Body').parent().find('.show').click()
+    // cy.contains('The Benefits of Yoga for Mind and Body').parent().find('.deleteButton').click()
+    // cy.get('.deleteButton').should('have.css','display:none') 
+    cy.contains('delete').should('have.css','display','none') 
   })
 })
