@@ -175,6 +175,7 @@ const App = () => {
     <button onClick={logout}>logout</button>
     </h2>
       {info(blogs.sort((a,b) => a.likes - b.likes))}
+      {info(blogs.reverse())}
       {blogs.map(blog => <Blog key={blog.id} blog_id={blog.id} addLike={addLike} deleteBlog={deleteBlog} blog={blog} />
       )}
     </div>}

@@ -41,14 +41,26 @@ describe('Blog tests', () => {
       cy.get('.username').type('testing')
       cy.get('.password').type('testing')
       cy.get('.sub').click()
+      cy.create({
+        "title": "A Beginner's Guide to Meditation",
+        "author": "Emma Wilson",
+        "url": "www.exampleblog.com/beginners-guide-meditation",
+        "likes": 76
+      })
+      cy.create( {
+        "title": "The Benefits of Yoga for Mind and Body",
+        "author": "Natalie Bennett",
+        "url": "www.exampleblog.com/benefits-of-yoga",
+        "likes": 124
+      })
     }) 
    
     it('save a blog',function(){
       cy.contains('create new blog').click()
-      cy.get('.title').type('Top 5 Hiking Trails in the Grand Canyon')
-      cy.get('.author').type('Jason Turner')
-      cy.get('.url').type('www.exampleblog.com/top-hiking-trails-grand-canyon')
-      cy.get('.blogSubmit').click()
+      cy.get('#title').type('Top 5 Hiking Trails in the Grand Canyon')
+      cy.get('#author').type('Jason Turner')
+      cy.get('#url').type('www.exampleblog.com/top-hiking-trails-grand-canyon')
+      cy.get('#blogSubmit').click()
     })
 
      it('blog already exists',function(){
@@ -63,39 +75,53 @@ describe('Blog tests', () => {
     })
 
     it('like a blog',function(){
-      cy.create({
-        "title": "A Beginner's Guide to Meditation",
-        "author": "Emma Wilson",
-        "url": "www.exampleblog.com/beginners-guide-meditation",
-        "likes": 76
-      })
-      cy.create( {
-        "title": "The Benefits of Yoga for Mind and Body",
-        "author": "Natalie Bennett",
-        "url": "www.exampleblog.com/benefits-of-yoga",
-        "likes": 124
-      })
+      // cy.create({
+      //   "title": "A Beginner's Guide to Meditation",
+      //   "author": "Emma Wilson",
+      //   "url": "www.exampleblog.com/beginners-guide-meditation",
+      //   "likes": 76
+      // })
+      // cy.create( {
+      //   "title": "The Benefits of Yoga for Mind and Body",
+      //   "author": "Natalie Bennett",
+      //   "url": "www.exampleblog.com/benefits-of-yoga",
+      //   "likes": 124
+      // })
       cy.contains('The Benefits of Yoga for Mind and Body').parent().find('.show').click()
       cy.contains('The Benefits of Yoga for Mind and Body').parent().find('.likeButton').click()
     })
     it('delete a blog',function(){
-      cy.create({
-        "title": "A Beginner's Guide to Meditation",
-        "author": "Emma Wilson",
-        "url": "www.exampleblog.com/beginners-guide-meditation",
-        "likes": 76
-      })
-      cy.create( {
-        "title": "The Benefits of Yoga for Mind and Body",
-        "author": "Natalie Bennett",
-        "url": "www.exampleblog.com/benefits-of-yoga",
-        "likes": 124
-      })
+      // cy.create({
+      //   "title": "A Beginner's Guide to Meditation",
+      //   "author": "Emma Wilson",
+      //   "url": "www.exampleblog.com/beginners-guide-meditation",
+      //   "likes": 76
+      // })
+      // cy.create( {
+      //   "title": "The Benefits of Yoga for Mind and Body",
+      //   "author": "Natalie Bennett",
+      //   "url": "www.exampleblog.com/benefits-of-yoga",
+      //   "likes": 124
+      // })
       cy.contains('The Benefits of Yoga for Mind and Body').parent().find('.show').click()
       cy.contains('The Benefits of Yoga for Mind and Body').parent().find('.deleteButton').click()
       cy.contains('The Benefits of Yoga for Mind and Body').should('not.exist')      
     })
-
+    it('blogs are sorted in desc order of likes',function(){
+      // cy.create({
+      //   "title": "A Beginner's Guide to Meditation",
+      //   "author": "Emma Wilson",
+      //   "url": "www.exampleblog.com/beginners-guide-meditation",
+      //   "likes": 76
+      // })
+      // cy.create( {
+      //   "title": "The Benefits of Yoga for Mind and Body",
+      //   "author": "Natalie Bennett",
+      //   "url": "www.exampleblog.com/benefits-of-yoga",
+      //   "likes": 124
+      // })
+      cy.get('.blog').eq(0).should('contain','The Benefits of Yoga for Mind and Body')
+    })
   })
   it('only creator can see the blog not anyone else',function(){
     cy.login( {
