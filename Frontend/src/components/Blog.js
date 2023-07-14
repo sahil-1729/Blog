@@ -18,7 +18,7 @@ const Blog = ({blog,blog_id,addLike,deleteBlog}) => {
     <div className="like" >
     {blog.likes} 
     </div>
-    <button onClick={(event) => addLike(event,blog_id,blog)} >Like</button>
+    <button className="likeButton" onClick={(event) => addLike(event,blog_id,blog)} >Like</button>
     <div className="author" >
     {blog.author}   
     </div>

@@ -56,6 +56,22 @@ describe('Blog tests', () => {
       cy.get('.url').type('www.exampleblog.com/top-hiking-trails-grand-canyon')
       cy.get('.blogSubmit').click()
     })
+    it('like a blog',function(){
+      cy.create({
+        "title": "A Beginner's Guide to Meditation",
+        "author": "Emma Wilson",
+        "url": "www.exampleblog.com/beginners-guide-meditation",
+        "likes": 76
+      })
+      cy.create( {
+        "title": "The Benefits of Yoga for Mind and Body",
+        "author": "Natalie Bennett",
+        "url": "www.exampleblog.com/benefits-of-yoga",
+        "likes": 124
+      })
+      cy.contains('The Benefits of Yoga for Mind and Body').parent().find('.show').click()
+      cy.contains('The Benefits of Yoga for Mind and Body').parent().find('.likeButton').click()
+    })
 
   })
 })
