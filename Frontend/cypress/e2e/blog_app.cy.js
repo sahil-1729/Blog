@@ -75,51 +75,17 @@ describe('Blog tests', () => {
     })
 
     it('like a blog',function(){
-      // cy.create({
-      //   "title": "A Beginner's Guide to Meditation",
-      //   "author": "Emma Wilson",
-      //   "url": "www.exampleblog.com/beginners-guide-meditation",
-      //   "likes": 76
-      // })
-      // cy.create( {
-      //   "title": "The Benefits of Yoga for Mind and Body",
-      //   "author": "Natalie Bennett",
-      //   "url": "www.exampleblog.com/benefits-of-yoga",
-      //   "likes": 124
-      // })
+
       cy.contains('The Benefits of Yoga for Mind and Body').parent().find('.show').click()
       cy.contains('The Benefits of Yoga for Mind and Body').parent().find('.likeButton').click()
     })
     it('delete a blog',function(){
-      // cy.create({
-      //   "title": "A Beginner's Guide to Meditation",
-      //   "author": "Emma Wilson",
-      //   "url": "www.exampleblog.com/beginners-guide-meditation",
-      //   "likes": 76
-      // })
-      // cy.create( {
-      //   "title": "The Benefits of Yoga for Mind and Body",
-      //   "author": "Natalie Bennett",
-      //   "url": "www.exampleblog.com/benefits-of-yoga",
-      //   "likes": 124
-      // })
+
       cy.contains('The Benefits of Yoga for Mind and Body').parent().find('.show').click()
       cy.contains('The Benefits of Yoga for Mind and Body').parent().find('.deleteButton').click()
       cy.contains('The Benefits of Yoga for Mind and Body').should('not.exist')      
     })
     it('blogs are sorted in desc order of likes',function(){
-      // cy.create({
-      //   "title": "A Beginner's Guide to Meditation",
-      //   "author": "Emma Wilson",
-      //   "url": "www.exampleblog.com/beginners-guide-meditation",
-      //   "likes": 76
-      // })
-      // cy.create( {
-      //   "title": "The Benefits of Yoga for Mind and Body",
-      //   "author": "Natalie Bennett",
-      //   "url": "www.exampleblog.com/benefits-of-yoga",
-      //   "likes": 124
-      // })
       cy.get('.blog').eq(0).should('contain','The Benefits of Yoga for Mind and Body')
     })
   })

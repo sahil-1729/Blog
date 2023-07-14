@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.f7c386e4.css","mappings":"AAAA,MAEI,iBAAkB,CADlB,mBAAoB,CAEpB,gBAAkB,CAClB,cAEJ","sources":["index.css"],"sourcesContent":[".blog{\r\n    border-style: dotted;\r\n    border-color: aqua;\r\n    margin-top: 0.5rem;\r\n    padding: 0.25rem;\r\n\r\n}"],"names":[],"sourceRoot":""}
