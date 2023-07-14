@@ -22,7 +22,7 @@ const Blog = ({blog,blog_id,addLike,deleteBlog}) => {
     <div className="author" >
     {blog.author}   
     </div>
-    <button onClick={(event) => deleteBlog(event,blog_id,blog)} >delete</button>
+    <button className="deleteButton" onClick={(event) => deleteBlog(event,blog_id,blog)} >delete</button>
     </Toggle>
   </div>  
 )}
