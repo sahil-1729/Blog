@@ -36,10 +36,13 @@ npm install
 ```
 MONGODB_URI=your_mongodb_uri
 MONGODB_TEST=your_mongodb_uri_for_testing
-SECRET=any_random_text
+SECRET=any_random_string
 ```
 5. Start the development server:
 ```
 npm run dev
 ```
 Open your web browser and visit http://localhost:3003 to access the Blog App.
+# Deployment
+The project is deployed on Render
+Link : https://blog-sudf.onrender.com/
