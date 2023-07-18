@@ -2,6 +2,15 @@
     border-style: dotted;
     border-color: aqua;
     margin-top: 0.5rem;
-    padding: 0.25rem;
-
+    padding: 0.75rem;
+}
+.black{
+    color: #BAD1CD;
+}
+button,input{
+    color: #BAD1CD;
+}
+*{
+    background-color: #171717;
+    font-family: 'Montserrat', sans-serif;
 }

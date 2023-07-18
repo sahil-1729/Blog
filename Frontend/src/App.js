@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import './index.css'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -158,7 +159,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div className='black'>
       <br/>
   <h1>
   {message}
