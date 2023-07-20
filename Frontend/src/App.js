@@ -97,12 +97,18 @@ const App = () => {
   }
 
   const form = () => (
-    <form onSubmit={result}>
+    <form className='LOGIN' onSubmit={result}>
     <h1>Login</h1>
-  <label >Username</label> <br/>
+    <div className='input_gap'>
+      <label >Username</label> <br/>
   <input className='username' type="text" value={username} name="Enter_your_username" onChange={({target}) => change(target.value,1)} /> <br/>
-  <label >Password</label> <br/>
+    </div>
+  
+    <div className='input_gap'>
+      <label >Password</label> <br/>
   <input className='password' type="password" value={password} name="Enter_your_password" onChange={({target}) => change(target.value,2)} /> <br/>
+    </div>
+  
   <input className='sub' type="submit" value="Submit"/>
   </form> 
   )
@@ -161,7 +167,7 @@ const App = () => {
   return (
     <div className='black'>
       <br/>
-  <h1>
+  <h1 className='message'>
   {message}
   </h1>
   {/* {info(`The username is `,username)} */}
