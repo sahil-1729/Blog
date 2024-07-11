@@ -45,4 +45,4 @@ npm run dev
 Open your web browser and visit http://localhost:3003 to access the Blog App.
 # Deployment
 The project is deployed on Render
-Link : https://blog-sudf.onrender.com/
+Link : https://blog-sudf.onrender.com
